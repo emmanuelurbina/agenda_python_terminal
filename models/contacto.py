@@ -23,14 +23,24 @@ class Contacto(pw.Model):
             print("Ocurrio un error interno")
 
     @classmethod
+    def table_format(self, data, headers):
+        # formato para tablas
+        format_table = ["github", "pretty", "simple"]
+        result = table(data, headers, tablefmt=format_table[2])
+        print(result)
+
+    @classmethod
     def all(cls):
         try:
             contactos = Contacto().select()
+            headers = ["id", "Nombre", "E-mail"]
             results = []
+            #" [id,name,email]"
             for contacto in contactos:
-
-                print(
-                    table([[f"{contacto.id}", f"{contacto.name}", f"{contacto.email}"]], headers=["id", "Nombre", "E-mail"], tablefmt="pretty"))
+                results.append([contacto.id,
+                                contacto.name,
+                                contacto.email])
+            Contacto.table_format(data=results, headers=headers)
 
         except:
             print("Ocurrio un error interno")
